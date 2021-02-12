@@ -358,6 +358,21 @@ class OrderHelper extends AbstractHelper
                 ->setTenderType('4');
             $orderPaymentArray[] = $orderPaymentGiftCard;
         }
+        if ($order->getLsVoucherAmountUsed()) {
+            // @codingStandardsIgnoreStart
+            $orderPaymentVoucher = new Entity\OrderPayment();
+            // @codingStandardsIgnoreEnd
+            //default values for all payment typoes.
+            $orderPaymentVoucher
+                ->setCurrencyFactor(1)
+                ->setAmount($order->getLsVoucherAmountUsed())
+                ->setLineNumber('4')
+                ->setCardNumber($order->getLsVoucherNo())
+                ->setExternalReference($order->getIncrementId())
+                ->setPreApprovedValidDate($preApprovedDate)
+                ->setTenderType('5');
+            $orderPaymentArray[] = $orderPaymentVoucher;
+        }
 
         return $orderPaymentArrayObject->setOrderPayment($orderPaymentArray);
     }

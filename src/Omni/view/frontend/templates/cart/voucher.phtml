@@ -17,12 +17,12 @@ if ($block->getVoucherActive()) {
                   // controller
                   $block->getUrl('omni/cart/VoucherUsed') ?>"
                   method="post" 
-                  data-mage-init='{"giftCard":{"GiftcardSelector": "#removevoucher",
-                                               "removevoucherSelector": "#removevoucher",
-                                               "applyVoucherButton": "input.action.applyVoucher",
-                                               "cancelVoucherButton": "input.action.cancelVoucher"}}'>
+                  data-mage-init='{"voucher":{"VoucherSelector": "#removevoucher",
+                                               "removeVoucherSelector": "#removevoucher",
+                                               "applyVoucherButton": "input.action.applyvoucher",
+                                               "cancelVoucherButton": "input.action.cancelvoucher"}}'>
                 <div class="fieldset <?php echo $class ?>">
-                    <input type="hidden" name="removegiftcard" id="removegiftcard" value="0"/>
+                    <input type="hidden" name="removevoucher" id="removevoucher" value="0"/>
                     <div class="field voucher-code-field">
                         <div class="control">
                             <input type="text" class="input-text" id="voucherno" name="voucherno"

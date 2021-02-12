@@ -8,6 +8,7 @@ var config = {
             'OwlCarousel': 'Ls_Omni/js/owl-carousel',
             'loyaltyPoints': 'Ls_Omni/js/loyalty-points',
             'giftCard': 'Ls_Omni/js/gift-card',
+            'voucher': 'Ls_Omni/js/voucher',
             'Magento_Checkout/template/minicart/item/default.html': 'Ls_Omni/template/minicart/item/default.html',
             'Magento_SalesRule/template/summary/discount.html': 'Ls_Omni/template/summary/discount.html',
             'Magento_OfflinePayments/js/view/payment/method-renderer/checkmo-method': 'Ls_Omni/js/view/payment/method-renderer/checkmo-method'

@@ -368,8 +368,9 @@ class ItemHelper extends AbstractHelper
                 if (isset($basketData)) {
                     $pointDiscount  = $cartQuote->getLsPointsSpent() * $this->loyaltyHelper->getPointRate();
                     $giftCardAmount = $cartQuote->getLsGiftCardAmountUsed();
+                    $voucherAmount = $cartQuote->getLsVoucherAmountUsed();
                     $cartQuote->getShippingAddress()->setGrandTotal(
-                        $basketData->getTotalAmount() - $giftCardAmount - $pointDiscount
+                        $basketData->getTotalAmount() - $giftCardAmount - $voucherAmount - $pointDiscount
                     );
                 }
                 $couponCode = $this->checkoutSession->getCouponCode();

@@ -5,7 +5,7 @@ namespace Ls\Omni\Controller\Cart;
 use Exception;
 use \Ls\Omni\Helper\BasketHelper;
 use \Ls\Omni\Helper\Data;
-use \Ls\Omni\Helper\GiftCardHelper;
+use \Ls\Omni\Helper\VoucherHelper;
 use Magento\Checkout\Model\Cart;
 use Magento\Checkout\Model\Session\Proxy;
 use Magento\Framework\App\Action\Context;
@@ -18,7 +18,7 @@ use Magento\Store\Model\StoreManagerInterface;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class GiftCardUsed extends \Magento\Checkout\Controller\Cart
+class VoucherUsed extends \Magento\Checkout\Controller\Cart
 {
     /**
      * Sales quote repository
@@ -28,9 +28,9 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
     public $quoteRepository;
 
     /**
-     * @var GiftCardHelper
+     * @var VoucherHelper
      */
-    public $giftCardHelper;
+    public $voucherHelper;
 
     /**
      * @var BasketHelper
@@ -48,7 +48,7 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
     public $data;
 
     /**
-     * GiftCardUsed constructor.
+     * VoucherHelper constructor.
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
      * @param Proxy $checkoutSession
@@ -56,7 +56,7 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
      * @param Validator $formKeyValidator
      * @param Cart $cart
      * @param CartRepositoryInterface $quoteRepository
-     * @param GiftCardHelper $giftCardHelper
+     * @param VoucherHelper $voucherHelper
      * @param BasketHelper $basketHelper
      * @param \Magento\Framework\Pricing\Helper\Data $priceHelper
      * @param Data $data
@@ -69,7 +69,7 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
         Validator $formKeyValidator,
         Cart $cart,
         CartRepositoryInterface $quoteRepository,
-        GiftCardHelper $giftCardHelper,
+        VoucherHelper $voucherHelper,
         BasketHelper $basketHelper,
         \Magento\Framework\Pricing\Helper\Data $priceHelper,
         Data $data
@@ -83,7 +83,7 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
             $cart
         );
         $this->quoteRepository = $quoteRepository;
-        $this->giftCardHelper  = $giftCardHelper;
+        $this->voucherHelper  = $voucherHelper;
         $this->priceHelper     = $priceHelper;
         $this->basketHelper    = $basketHelper;
         $this->data            = $data;
@@ -98,59 +98,60 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
      */
     public function execute()
     {
-        $giftCardNo            = $this->getRequest()->getParam('voucherno');
-        $giftCardBalanceAmount = 0;
-        $giftCardAmount        = $this->getRequest()->getParam('removevoucher') == 1
+        $voucherNo            = $this->getRequest()->getParam('voucherno');
+        $voucherBalanceAmount = 0;
+        $voucherAmount        = $this->getRequest()->getParam('removevoucher') == 1
             ? 0
             : trim($this->getRequest()->getParam('voucheramount'));
 
-        $giftCardAmount = (float)$giftCardAmount;
+        $voucherAmount = (float)$voucherAmount;
         try {
-            if (!is_numeric($giftCardAmount) || $giftCardAmount < 0) {
+            if (!is_numeric($voucherAmount) || $voucherAmount < 0) {
                 $this->messageManager->addErrorMessage(
                     __(
-                        'The gift card Amount "%1" is not valid.',
-                        $this->priceHelper->currency($giftCardAmount, true, false)
+                        'The voucher Amount "%1" is not valid.',
+                        $this->priceHelper->currency($voucherAmount, true, false)
                     )
                 );
                 return $this->_goBack();
             }
-            if ($giftCardNo != null) {
-                $giftCardResponse = $this->giftCardHelper->getGiftCardBalance($giftCardNo);
+            if ($voucherNo != null) {
+                $voucherResponse = $this->voucherHelper->getVoucherBalance($voucherNo);
 
-                if (is_object($giftCardResponse)) {
-                    $giftCardBalanceAmount = $giftCardResponse->getBalance();
+                if (is_object($voucherResponse)) {
+                    $voucherBalanceAmount = $voucherResponse->getBalance();
                 } else {
-                    $giftCardBalanceAmount = $giftCardResponse;
+                    $voucherBalanceAmount = $voucherResponse;
                 }
             }
 
-            if (empty($giftCardResponse)) {
-                $this->messageManager->addErrorMessage(__('The gift card code %1 is not valid.', $giftCardNo));
+            if (empty($voucherResponse)) {
+                $this->messageManager->addErrorMessage(__('The voucher code %1 is not valid.', $voucherNo));
                 return $this->_goBack();
             }
 
             $cartQuote    = $this->cart->getQuote();
             $itemsCount   = $cartQuote->getItemsCount();
+            // voucher 
             $orderBalance = $this->data->getOrderBalance(
                 0,
                 $cartQuote->getLsPointsSpent(),
                 $this->basketHelper->getBasketSessionValue()
             );
 
-            $isGiftCardAmountValid = $this->giftCardHelper->isGiftCardAmountValid(
+            $isVoucherAmountValid = $this->voucherHelper->isVoucherAmountValid(
                 $orderBalance,
-                $giftCardAmount,
-                $giftCardBalanceAmount
+                $voucherAmount,
+                $voucherBalanceAmount
             );
 
-            if ($isGiftCardAmountValid == false) {
+            if ($isVoucherAmountValid == false) {
                 $this->messageManager->addErrorMessage(
                     __(
                         'The applied amount %3' .
-                        ' is greater than gift card balance amount (%1) or it is greater than order balance (Excl. Shipping Amount) (%2).',
+                        ' is greater than voucher balance amount (%1) or it is greater than order balance (Excl. Shipping Amount) (%2).',
                         $this->priceHelper->currency(
-                            $giftCardBalanceAmount,
+                            $voucherBalanceAmount,
                             true,
                             false
                         ),
@@ -160,7 +161,7 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
                             false
                         ),
                         $this->priceHelper->currency(
-                            $giftCardAmount,
+                            $voucherAmount,
                             true,
                             false
                         )
@@ -168,47 +169,47 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
                 );
                 return $this->_goBack();
             }
-            if ($itemsCount && !empty($giftCardResponse) && $isGiftCardAmountValid) {
+            if ($itemsCount && !empty($voucherResponse) && $isVoucherAmountValid) {
                 $cartQuote->getShippingAddress()->setCollectShippingRates(true);
-                $cartQuote->setLsGiftCardAmountUsed($giftCardAmount)->collectTotals();
-                $cartQuote->setLsGiftCardNo($giftCardNo)->collectTotals();
+                $cartQuote->setLsVoucherAmountUsed($voucherAmount)->collectTotals();
+                $cartQuote->setLsVoucherNo($voucherNo)->collectTotals();
                 $cartQuote->setCouponCode($this->_checkoutSession->getCouponCode())->collectTotals();
                 $this->quoteRepository->save($cartQuote);
             }
-            if ($giftCardAmount) {
+            if ($voucherAmount) {
                 if ($itemsCount) {
-                    if (!empty($giftCardResponse) && $isGiftCardAmountValid) {
-                        $this->_checkoutSession->getQuote()->setLsGiftCardAmountUsed($giftCardAmount)->save();
-                        $this->_checkoutSession->getQuote()->setLsGiftCardNo($giftCardNo)->save();
+                    if (!empty($voucherResponse) && $isVoucherAmountValid) {
+                        $this->_checkoutSession->getQuote()->setLsVoucherAmountUsed($voucherAmount)->save();
+                        $this->_checkoutSession->getQuote()->setLsVoucherNo($voucherNo)->save();
                         $this->messageManager->addSuccessMessage(
                             __(
-                                'You have used "%1" amount from gift card.',
-                                $this->priceHelper->currency($giftCardAmount, true, false)
+                                'You have used "%1" amount from voucher.',
+                                $this->priceHelper->currency($voucherAmount, true, false)
                             )
                         );
                     } else {
                         $this->messageManager->addErrorMessage(
                             __(
-                                'The gift card amount "%1" is not valid.',
-                                $this->getBaseCurrencyCode() . $giftCardAmount
+                                'The voucher amount "%1" is not valid.',
+                                $this->getBaseCurrencyCode() . $voucherAmount
                             )
                         );
                     }
                 } else {
                     $this->messageManager->addErrorMessage(
                         __(
-                            "Gift Card cannot be applied."
+                            "Voucher cannot be applied."
                         )
                     );
                 }
             } else {
-                if ($giftCardAmount == 0) {
-                    $this->_checkoutSession->getQuote()->setLsGiftCardNo(null)->save();
+                if ($voucherAmount == 0) {
+                    $this->_checkoutSession->getQuote()->setLsVoucherNo(null)->save();
                 }
-                $this->messageManager->addSuccessMessage(__('You have successfully cancelled the gift card.'));
+                $this->messageManager->addSuccessMessage(__('You have successfully cancelled the voucher.'));
             }
         } catch (Exception $e) {
-            $this->messageManager->addErrorMessage(__('Gift Card cannot be applied.'));
+            $this->messageManager->addErrorMessage(__('Voucher cannot be applied.'));
         }
 
         return $this->_goBack();

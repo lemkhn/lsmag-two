@@ -1,0 +1,56 @@
+<div class="payment-option _collapsible opc-payment-additional giftcard"
+     data-bind="mageInit: {'collapsible':{'openedState': '_active'}}">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko i18n: 'Apply Gift Card'--><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content" data-role="content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <form class="form form-discount" id="voucher">
+            <div class="payment-option-inner">
+                <div class="field">
+                    <label class="label">
+                        <span data-bind="i18n: 'Enter Voucher Card'"></span>
+                    </label>
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="voucher_no"
+                               name="voucher_no"
+                               data-validate="{'required-entry':true}"
+                               data-bind="value: voucherNo, attr:{placeholder: $t('Enter Voucher Code')} "/>
+                        <input class="input-text"
+                               type="number"
+                               id="voucher_amount"
+                               name="voucher_amount"
+                               data-validate="{'required-entry':true, 'required-number':true, 'validate-not-negative-number':true}"
+                               data-bind="value: voucherAmount, attr:{placeholder: $t('Enter Voucher Amount')} "/>
+                    </div>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <!-- ko ifnot: isVoucherApplied() -->
+                    <button class="action action-apply" type="submit"
+                            data-bind="'value': $t('Apply'), click: applyVoucher">
+                        <span><!-- ko i18n: 'Apply'--><!-- /ko --></span>
+                    </button>
+                    <!-- /ko -->
+                    <!-- ko if: isVoucherApplied() -->
+                    <button class="action action-apply" type="submit"
+                            data-bind="'value': $t('Update'), click: applyVoucher">
+                        <span><!-- ko i18n: 'Update'--><!-- /ko --></span>
+                    </button>
+                    <button class="action action-cancel" type="submit"
+                            data-bind="'value': $t('Cancel'), click: cancelVoucher">
+                        <span><!-- ko i18n: 'Cancel'--><!-- /ko --></span>
+                    </button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

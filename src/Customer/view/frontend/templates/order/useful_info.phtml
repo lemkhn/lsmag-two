@@ -36,5 +36,12 @@
                 <span><?= $block->getPaymentDescription()[1][0]; ?></span>
             </div>
         <?php } ?>
+        <?php if (!empty($block->getPaymentDescription()[2])) { ?>
+            <div class="custom-box">
+                <strong class="box-title"><span><?= /* @escapeNotVerified */
+                        __('Voucher Code:') ?></span></strong>
+                <span><?= $block->getPaymentDescription()[2][0]; ?></span>
+            </div>
+        <?php } ?>
     </div>
 </div>

@@ -214,6 +214,30 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\Invoice
                                 ],
                             ];
                         }
+
+                        if ($order->getLsVoucherAmountUsed() > 0) {
+                            $voucherAmount       = $this->priceHelper->currency(
+                                $order->getLsVoucherAmountUsed(),
+                                true,
+                                false
+                            );
+                            $lineBlock['lines'][] = [
+                                [
+                                    'text'      => __("Voucher Redeemed ") . '(' . $order->getLsVoucherNo() . '):' . "",
+                                    'feed'      => 475,
+                                    'align'     => 'right',
+                                    'font_size' => $totalData['font_size'],
+                                    'font'      => 'bold',
+                                ],
+                                [
+                                    'text'      => $voucherAmount,
+                                    'feed'      => 565,
+                                    'align'     => 'right',
+                                    'font_size' => $totalData['font_size'],
+                                    'font'      => 'bold'
+                                ],
+                            ];
+                        }
                     }
                     $lineBlock['lines'][] = [
                         [

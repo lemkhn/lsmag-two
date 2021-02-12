@@ -51,15 +51,16 @@ class SalesObserver implements ObserverInterface
         if (!empty($basketData)) {
             $pointDiscount  = $quote->getLsPointsSpent() * $this->loyaltyHelper->getPointRate();
             $giftCardAmount = $quote->getLsGiftCardAmountUsed();
+            $voucherAmount = $quote->getLsVoucherAmountUsed();
             if ($pointDiscount > 0.001) {
                 $quote->setLsPointsDiscount($pointDiscount);
             }
             if ($addressType == "shipping") {
                 $total->setBaseGrandTotal(
-                    $basketData->getTotalAmount() + $total->getShippingAmount() - $pointDiscount - $giftCardAmount
+                    $basketData->getTotalAmount() + $total->getShippingAmount() - $pointDiscount - $giftCardAmount - $voucherAmount
                 );
                 $total->setGrandTotal(
-                    $basketData->getTotalAmount() + $total->getShippingAmount() - $pointDiscount - $giftCardAmount
+                    $basketData->getTotalAmount() + $total->getShippingAmount() - $pointDiscount - $giftCardAmount - $voucherAmount
                 );
             } else {
                 $total->setBaseGrandTotal(0);

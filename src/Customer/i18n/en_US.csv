@@ -12,6 +12,7 @@ Card,Card
 Coupon,Coupon
 "Loyalty Points","Loyalty Points"
 "Gift Card","Gift Card"
+"Voucher","Voucher"
 Unknown,Unknown
 "Pay At Store","Pay At Store"
 Save,Save
@@ -114,6 +115,7 @@ Subtotal,Subtotal
 "Click & Collect:","Click & Collect:"
 "Loyalty Points Rewarded:","Loyalty Points Rewarded:"
 "Gift Card Code:","Gift Card Code:"
+"Voucher Code:","Voucher Code:"
 "Print Invoice","Print Invoice"
 "Print Shipment","Print Shipment"
 "Track this shipment","Track this shipment"

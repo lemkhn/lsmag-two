@@ -93,6 +93,23 @@
                                                                         </item>
                                                                     </item>
                                                                 </item>
+                                                                <item name="vou-cher" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">
+                                                                        Ls_Omni/js/view/voucher
+                                                                    </item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="errors" xsi:type="array">
+                                                                            <item name="sortOrder" xsi:type="string">0
+                                                                            </item>
+                                                                            <item name="component" xsi:type="string">
+                                                                                Ls_Omni/js/view/payment/voucher-messages
+                                                                            </item>
+                                                                            <item name="displayArea" xsi:type="string">
+                                                                                messages
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
                                                             </item>
                                                         </item>
                                                     </item>
@@ -145,6 +162,12 @@
                                                                 <item name="title" xsi:type="string" translate="true">Subtotal (Inc.Tax)</item>
                                                                 <item name="sortOrder" xsi:type="string">0</item>
                                                             </item>
+                                                        </item>
+                                                        <item name="ls_voucher_amount_used" xsi:type="array">
+                                                            <item name="component" xsi:type="string">
+                                                                Ls_Omni/js/view/totals/voucher-discount
+                                                            </item>
+                                                            <item name="sortOrder" xsi:type="string">3</item>
                                                         </item>
                                                         <item name="ls_gift_card_amount_used" xsi:type="array">
                                                             <item name="component" xsi:type="string">

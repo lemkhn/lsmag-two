@@ -120,6 +120,7 @@ class CartTotalRepository
             if (isset($basketData)) {
                 $pointDiscount  = $quote->getLsPointsSpent() * $this->loyaltyHelper->getPointRate();
                 $giftCardAmount = $quote->getLsGiftCardAmountUsed();
+                $voucherAmount = $quote->getLsVoucherAmountUsed();
                 if ($pointDiscount > 0.001) {
                     $quote->setLsPointsDiscount($pointDiscount);
                 }

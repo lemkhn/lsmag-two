@@ -39,6 +39,11 @@ class Totals extends Template
     /**
      * @var int
      */
+    public $voucherAmount = 0;
+
+    /**
+     * @var int
+     */
     public $loyaltyPointAmount = 0;
 
     /** @var  LSR $lsr */
@@ -119,11 +124,11 @@ class Totals extends Template
     }
 
     /**
-     * @return float|GiftCardAmount|LoyaltyAmount
+     * @return float|GiftCardAmount|VoucherAmount|LoyaltyAmount
      */
     public function getTotalAmount()
     {
-        $total = $this->getGrandTotal() - $this->giftCardAmount - $this->loyaltyPointAmount;
+        $total = $this->getGrandTotal() - $this->giftCardAmount - $this->voucherAmount - $this->loyaltyPointAmount;
 
         return $total;
     }
@@ -175,6 +180,7 @@ class Totals extends Template
         $paymentLines = $this->getOrder()->getPayments();
         $methods      = [];
         $giftCardInfo = [];
+        $voucherInfo = [];
         $loyaltyInfo  = [];
         // @codingStandardsIgnoreEnd
         foreach ($paymentLines as $line) {
@@ -190,11 +196,14 @@ class Totals extends Template
             } elseif ($line->getTenderType() == '4') {
                 $methods[]            = __('Gift Card');
                 $this->giftCardAmount = $line->getAmount();
+            } elseif ($line->getTenderType() == '5') {
+                $methods[]            = __('Voucher');
+                $this->voucherAmount = $line->getAmount();
             } else {
                 $methods[] = __('Unknown');
             }
         }
-        return [implode(', ', $methods), $giftCardInfo, $loyaltyInfo];
+        return [implode(', ', $methods), $giftCardInfo, $voucherInfo, $loyaltyInfo];
     }
 
     /**

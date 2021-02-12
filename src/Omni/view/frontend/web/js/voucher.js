@@ -4,26 +4,26 @@ define([
 ], function ($) {
     'use strict';
 
-    $.widget('lsomni.giftCard', {
+    $.widget('lsomni.voucher', {
         options: {},
 
         _create: function () {
-            this.giftCard = $(this.options.GiftcardSelector);
-            this.removeGiftCard = $(this.options.removeGiftCardSelector);
+            this.voucher = $(this.options.VoucherSelector);
+            this.removeVoucher = $(this.options.removeVoucherSelector);
 
             $(this.options.applyVoucherButton).on('click', $.proxy(function () {
-                this.giftCard.attr('data-validate', '{required:true}');
-                this.giftCard.attr('value', '0');
+                this.voucher.attr('data-validate', '{required:true}');
+                this.voucher.attr('value', '0');
                 $(this.element).validation().submit();
             }, this));
 
             $(this.options.cancelVoucherButton).on('click', $.proxy(function () {
-                this.giftCard.removeAttr('data-validate');
-                this.giftCard.attr('value', '1');
+                this.voucher.removeAttr('data-validate');
+                this.voucher.attr('value', '1');
                 this.element.submit();
             }, this));
         }
     });
 
-    return $.lsomni.giftCard;
+    return $.lsomni.voucher;
 });

@@ -4,8 +4,8 @@ define([
     'uiComponent',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/model/totals',
-    'Ls_Omni/js/action/set-gift-card',
-    'Ls_Omni/js/action/cancel-gift-card',
+    'Ls_Omni/js/action/set-voucher',
+    'Ls_Omni/js/action/cancel-voucher',
     'mage/translate',
 ], function ($, ko, Component, quote, totals, setVoucherAction, cancelVoucherAction, $t) {
     'use strict';
@@ -18,13 +18,13 @@ define([
 
 
     if (totals) {
-        var vouchAmount = totals.getSegment('ls_gift_card_amount_used');
+        var vouchAmount = totals.getSegment('ls_voucher_amount_used');
         if (vouchAmount) {
             voucherAmount(vouchAmount.value);
         }
     }
     if (totals) {
-        var vouchNo = totals.getSegment('ls_gift_card_no');
+        var vouchNo = totals.getSegment('ls_voucher_no');
         if (vouchNo) {
             voucherNo(vouchNo.value);
         }
@@ -33,7 +33,7 @@ define([
 
     return Component.extend({
         defaults: {
-            template: 'Ls_Omni/payment/giftcard'
+            template: 'Ls_Omni/payment/voucher'
         },
 
         voucherNo: voucherNo,
@@ -70,7 +70,7 @@ define([
          * @returns {Boolean}
          */
         validateVoucher: function () {
-            var form = '#gift-card';
+            var form = '#vou-cher';
 
             return $(form).validation() && $(form).validation('isValid');
         }

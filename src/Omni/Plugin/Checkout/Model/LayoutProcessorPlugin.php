@@ -5,6 +5,7 @@ namespace Ls\Omni\Plugin\Checkout\Model;
 use \Ls\Core\Model\LSR;
 use \Ls\Omni\Helper\Data;
 use \Ls\Omni\Helper\GiftCardHelper;
+use \Ls\Omni\Helper\VoucherHelper;
 use \Ls\Omni\Helper\LoyaltyHelper;
 use Magento\Checkout\Block\Checkout\LayoutProcessor;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -28,6 +29,9 @@ class LayoutProcessorPlugin
     /** @var GiftCardHelper */
     public $giftCardHelper;
 
+    /** @var VoucherHelper */
+    public $voucherHelper;
+
     /**
      * @var LSR
      */
@@ -38,17 +42,20 @@ class LayoutProcessorPlugin
      * @param Data $data
      * @param LoyaltyHelper $loyaltyHelper
      * @param GiftCardHelper $giftCardHelper
+     * @param VoucherHelper $voucherHelper
      * @param LSR $lsr
      */
     public function __construct(
         Data $data,
         LoyaltyHelper $loyaltyHelper,
         GiftCardHelper $giftCardHelper,
+        VoucherHelper $voucherHelper,
         LSR $lsr
     ) {
         $this->data = $data;
         $this->loyaltyHelper = $loyaltyHelper;
         $this->giftCardHelper = $giftCardHelper;
+        $this->voucherHelper = $voucherHelper;
         $this->lsr = $lsr;
     }
 
@@ -71,6 +78,9 @@ class LayoutProcessorPlugin
         }
         if ($this->giftCardHelper->isGiftCardEnabled('checkout') == '0') {
             unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['afterMethods']['children']['gift-card']);
+        }
+        if ($this->voucherHelper->isVoucherEnabled('checkout') == '0') {
+            unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['afterMethods']['children']['vou-cher']);
         }
 
         if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shippingAdditional']['children'])) {

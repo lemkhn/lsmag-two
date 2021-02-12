@@ -2,40 +2,40 @@
 
 namespace Ls\Omni\Block\Cart;
 
-use \Ls\Omni\Helper\GiftCardHelper;
+use \Ls\Omni\Helper\VoucherHelper;
 use Magento\Checkout\Block\Cart\AbstractCart;
 use Magento\Checkout\Model\Session\Proxy;
 use Magento\Framework\View\Element\Template\Context;
 
 /**
- * Class Giftcard
+ * Class Voucher
  * @package Ls\Omni\Block\Cart
  */
 class Voucher extends AbstractCart
 {
 
     /**
-     * @var GiftCardHelper
+     * @var VoucherHelper
      */
-    public $giftCardHelper;
+    public $voucherHelper;
 
     /**
-     * Giftcard constructor.
-     * @param GiftCardHelper $giftCardHelper
+     * Voucher constructor.
+     * @param VoucherHelper $voucherHelper
      * @param Context $context
      * @param \Magento\Customer\Model\Session\Proxy $customerSession
      * @param Proxy $checkoutSession
      * @param array $data
      */
     public function __construct(
-        GiftCardHelper $giftCardHelper,
+        VoucherHelper $voucherHelper,
         Context $context,
         \Magento\Customer\Model\Session\Proxy $customerSession,
         Proxy $checkoutSession,
         array $data = []
     ) {
         parent::__construct($context, $customerSession, $checkoutSession, $data);
-        $this->giftCardHelper  = $giftCardHelper;
+        $this->voucherHelper  = $voucherHelper;
         $this->_isScopePrivate = true;
     }
 
@@ -44,7 +44,7 @@ class Voucher extends AbstractCart
      */
     public function getVoucherBalance()
     {
-        return $this->giftCardHelper->getGiftCardBalance();
+        return $this->voucherHelper->getVoucherBalance();
     }
 
     /**
@@ -52,8 +52,8 @@ class Voucher extends AbstractCart
      */
     public function getVoucherAmountUsed()
     {
-        if ($this->getQuote()->getLsGiftCardAmountUsed() > 0) {
-            return $this->getQuote()->getLsGiftCardAmountUsed();
+        if ($this->getQuote()->getLsVoucherAmountUsed() > 0) {
+            return $this->getQuote()->getLsVoucherAmountUsed();
         }
     }
 
@@ -62,7 +62,7 @@ class Voucher extends AbstractCart
      */
     public function getVoucherNo()
     {
-        return $this->getQuote()->getLsGiftCardNo();
+        return $this->getQuote()->getLsVoucherNo();
     }
 
     /**
@@ -70,6 +70,6 @@ class Voucher extends AbstractCart
      */
     public function getVoucherActive()
     {
-        return $this->giftCardHelper->isGiftCardEnabled('cart');
+        return $this->voucherHelper->isVoucherEnabled('cart');
     }
 }

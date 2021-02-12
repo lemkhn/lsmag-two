@@ -64,6 +64,18 @@ class Totals extends AbstractBlock
             );
             $this->getParentBlock()->addTotalBefore($giftCardAmount, 'discount');
         }
+        if ($order->getLsVoucherAmountUsed() > 0) {
+            // @codingStandardsIgnoreLine
+            $voucherAmount = new DataObject(
+                [
+                    'code'  => 'ls_voucher_amount_used',
+                    'value' => -$order->getLsVoucherAmountUsed(),
+                    'label' => __('Voucher Redeemed ') . '(' . $order->getLsVoucherNo() . ')',
+                ]
+            );
+            $this->getParentBlock()->addTotalBefore($voucherAmount, 'discount');
+        }
+
 
         return $this;
     }

@@ -22,6 +22,10 @@
                 <cart>1</cart>
                 <checkout>1</checkout>
             </ls_giftcard>
+            <ls_voucher>
+                <cart>1</cart>
+                <checkout>1</checkout>
+            </ls_voucher>
             <ls_discounts>
                 <discount>1</discount>
                 <discount_login_register_notice>0</discount_login_register_notice>

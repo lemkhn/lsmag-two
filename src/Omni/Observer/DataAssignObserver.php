@@ -49,6 +49,9 @@ class DataAssignObserver implements ObserverInterface
 
         $order->setLsGiftCardAmountUsed($quote->getLsGiftCardAmountUsed());
         $order->setLsGiftCardNo($quote->getLsGiftCardNo());
+
+        $order->setLsVoucherAmountUsed($quote->getLsVoucherAmountUsed());
+        $order->setLsVoucherNo($quote->getLsVoucherNo());
         return $this;
     }
 }

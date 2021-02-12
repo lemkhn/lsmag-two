@@ -199,6 +199,7 @@ class Info extends Template
         $paymentLines = $this->getOrder()->getPayments();
         $methods      = array();
         $giftCardInfo = array();
+        $voucherInfo = array();
         // @codingStandardsIgnoreEnd
         foreach ($paymentLines as $line) {
             if ($line->getTenderType() == '0') {
@@ -213,6 +214,10 @@ class Info extends Template
                 $methods[]       = __('Gift Card');
                 $giftCardInfo[0] = $line->getCardNo();
                 $giftCardInfo[1] = $line->getAmount();
+            } elseif ($line->getTenderType() == '5') {
+                $methods[]       = __('Voucher');
+                $voucherInfo[0] = $line->getCardNo();
+                $voucherInfo[1] = $line->getAmount();
             } else {
                 $methods[] = __('Unknown');
             }
@@ -221,7 +226,7 @@ class Info extends Template
         if (empty($paymentLines->getSalesEntryPayment())) {
             $methods[] = __('Pay At Store');
         }
-        return [implode(', ', $methods), $giftCardInfo];
+        return [implode(', ', $methods), $giftCardInfo, $voucherInfo];
     }
 
     /**
@@ -241,6 +246,15 @@ class Info extends Template
     public function getGiftCardFormattedPrice($giftCardAmount)
     {
         return $this->priceHelper->currency($giftCardAmount, true, false);
+    }
+
+    /**
+     * @param $points
+     * @return string
+     */
+    public function getVoucherFormattedPrice($voucherAmount)
+    {
+        return $this->priceHelper->currency($voucherAmount, true, false);
     }
 
     /**

@@ -98,6 +98,8 @@ class QuoteObserver implements ObserverInterface
                 if (count($quote->getAllItems()) == 0) {
                     $quote->setLsGiftCardAmountUsed(0);
                     $quote->setLsGiftCardNo(null);
+                    $quote->setLsVoucherAmountUsed(0);
+                    $quote->setLsVoucherNo(null);
                     $quote->setLsPointsSpent(0);
                     $quote->setLsPointsEarn(0);
                     $quote->setGrandTotal(0);
@@ -111,7 +113,7 @@ class QuoteObserver implements ObserverInterface
                     $quote->setLsPointsEarn($basketData->getPointsRewarded())->save();
                 }
                 if ($quote->getLsGiftCardAmountUsed() > 0 ||
-                    $quote->getLsPointsSpent() > 0) {
+                    $quote->getLsPointsSpent() > 0 || $quote->getLsVoucherAmountUsed() > 0 ) {
                     $this->data->orderBalanceCheck(
                         $quote->getLsGiftCardNo(),
                         $quote->getLsGiftCardAmountUsed(),
