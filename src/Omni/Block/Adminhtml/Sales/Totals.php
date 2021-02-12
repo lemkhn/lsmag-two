@@ -140,6 +140,18 @@ class Totals extends Template
             );
             $this->getParentBlock()->addTotalBefore($giftCardAmount, 'discount');
         }
+        if ($this->getSource()->getLsVOucherAmountUsed() > 0) {
+            // @codingStandardsIgnoreLine
+            $giftCardAmount = new DataObject(
+                [
+                    'code'  => 'ls_voucher_amount_used',
+                    'value' => -$this->getSource()->getLsVOucherAmountUsed(),
+                    'label' => __('Voucher Redeemed ') . '(' . $this->getSource()->getLsGiftCardNo() . ')',
+                ]
+            );
+            $this->getParentBlock()->addTotalBefore($giftCardAmount, 'discount');
+        }
+
 
         return $this;
     }

@@ -707,11 +707,8 @@ class BasketHelper extends AbstractHelper
     {
         /** @var Entity\OneList $list */
         $list     = null;
-        $cardId   = null;
         $customer = $this->customerFactory->create()->setWebsiteId($websiteId)->loadByEmail($customerEmail);
-        if (!empty($customer)) {
-            $cardId = $customer->getData('lsr_cardid');
-        }
+        $cardId   = $customer->getData('lsr_cardid');
         $webStore = $this->lsr->getWebsiteConfig(LSR::SC_SERVICE_STORE, $websiteId);
         // @codingStandardsIgnoreStart
         $list = (new Entity\OneList())
@@ -738,25 +735,19 @@ class BasketHelper extends AbstractHelper
 
         //check if onelist is created and stored in session. if it is, than return it.
         if ($this->getOneListFromCustomerSession()) {
-            if ($id) {
-                if ($id == $this->getOneListFromCustomerSession()->getId()) {
-                    return $this->getOneListFromCustomerSession();
-                }
-            } else {
-                return $this->getOneListFromCustomerSession();
-            }
+            return $this->getOneListFromCustomerSession();
         }
 
         /** @var Entity\MemberContact $loginContact */
         // For logged in users check if onelist is already stored in registry.
         if ($loginContact = $this->registry->registry(LSR::REGISTRY_LOYALTY_LOGINRESULT)) {
             try {
-                if ($loginContact->getOneLists()->getOneList() instanceof Entity\OneList) {
-                    $this->setOneListInCustomerSession($loginContact->getOneLists()->getOneList());
-                    return $loginContact->getOneLists()->getOneList();
+                if ($loginContact->getBasket() instanceof Entity\OneList) {
+                    $this->setOneListInCustomerSession($loginContact->getBasket());
+                    return $loginContact->getBasket();
                 } else {
-                    if ($loginContact->getOneLists() instanceof Entity\ArrayOfOneList) {
-                        foreach ($loginContact->getOneLists()->getIterator() as $list) {
+                    if ($loginContact->getBasket() instanceof Entity\ArrayOfOneList) {
+                        foreach ($loginContact->getBasket()->getIterator() as $list) {
                             if ($list->getIsDefaultList()) {
                                 $this->setOneListInCustomerSession($list);
                                 return $list;
@@ -890,7 +881,7 @@ class BasketHelper extends AbstractHelper
         }
         $baseUnitOfMeasure = $item->getProduct()->getData('uom');
         // @codingStandardsIgnoreLine
-        $uom        = $this->itemHelper->getUom($itemSku, $baseUnitOfMeasure);
+        $uom = $this->itemHelper->getUom($itemSku, $baseUnitOfMeasure);
         $rowTotal   = "";
         $basketData = $this->getOneListCalculation();
         $orderLines = $basketData ? $basketData->getOrderLines()->getOrderLine() : [];
@@ -1128,13 +1119,5 @@ class BasketHelper extends AbstractHelper
         $this->unSetOneList();
         $this->unSetOneListCalculation();
         $this->unsetCouponCode();
-    }
-
-    /**
-     * @param $couponCode
-     */
-    public function setCouponCodeInAdmin($couponCode)
-    {
-        $this->couponCode = $couponCode;
     }
 }

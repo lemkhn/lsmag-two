@@ -335,7 +335,7 @@ Go to Stores > Configuration > LS Retail > General Configuration.';
     const LS_LOYALTYPOINTS_SHOW_ON_CART = 'ls_mag/ls_loyaltypoints/cart';
     const LS_LOYALTYPOINTS_SHOW_ON_CHECKOUT = 'ls_mag/ls_loyaltypoints/checkout';
 
-    //GiftCard
+    //GiftCard & Voucher
     const LS_GIFTCARD_SHOW_ON_CART = 'ls_mag/ls_giftcard/cart';
     const LS_GIFTCARD_SHOW_ON_CHECKOUT = 'ls_mag/ls_giftcard/checkout';
 

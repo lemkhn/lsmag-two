@@ -14,6 +14,9 @@
                    template="Ls_Omni::cart/loyalty-points.phtml" before="-" ifconfig="ls_mag/ls_loyaltypoints/cart"/>
             <block class="Ls\Omni\Block\Cart\Giftcard" name="checkout.cart.giftcard" as="giftcard"
                    template="Ls_Omni::cart/gift-card.phtml" before="-" ifconfig="ls_mag/ls_giftcard/cart"/>
+            <!-- Voucher -->
+            <block class="Ls\Omni\Block\Cart\Voucher" name="checkout.cart.voucher" as="voucher"
+                   template="Ls_Omni::cart/voucher.phtml" before="-" ifconfig="ls_mag/ls_giftcard/cart"/>
         </referenceContainer>
         <move element="cart.discount" destination="checkout.cart.container" after="-"/>
         <referenceBlock name="checkout.cart.totals">

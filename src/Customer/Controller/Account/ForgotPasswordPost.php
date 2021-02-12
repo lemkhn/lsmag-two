@@ -81,33 +81,31 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account\ForgotPass
             if ($email) {
                 /** @var Entity\ForgotPasswordResponse | null $result */
                 try {
+                    $result = $this->contactHelper->forgotPassword($email);
                     $search = $this->contactHelper->searchWithUsernameOrEmail($email);
-                    if ($search) {
+                    if ($result && $search) {
                         $websiteId = $this->storeManager->getWebsite()->getWebsiteId();
                         /** @var Customer $customer */
                         $customer = $this->customerFactory->create()
                             ->setWebsiteId($websiteId)
                             ->loadByEmail($search->getEmail());
-                        $result   = $this->contactHelper->forgotPassword($customer);
-                        if ($result) {
-                            if (!$customer->getId()) {
-                                // Check if customer is already created in magento or not.
-                                $customer = $this->contactHelper->createNewCustomerAgainstProvidedInformation(
-                                    $search,
-                                    LSR::LS_RESETPASSWORD_DEFAULT
-                                );
-                            }
-                            $customer->setData(
-                                'attribute_set_id',
-                                CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
-                            );
-                            $customer->setData('lsr_resetcode', $result);
-                            $this->customerResourceModel->save($customer);
-                            $this->customerAccountManagement->initiatePasswordReset(
-                                $search->getEmail(),
-                                AccountManagement::EMAIL_RESET
+                        if (!$customer->getId()) {
+                            // Check if customer is already created in magento or not.
+                            $customer = $this->contactHelper->createNewCustomerAgainstProvidedInformation(
+                                $search,
+                                LSR::LS_RESETPASSWORD_DEFAULT
                             );
                         }
+                        $customer->setData(
+                            'attribute_set_id',
+                            CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
+                        );
+                        $customer->setData('lsr_resetcode', $result);
+                        $this->customerResourceModel->save($customer);
+                        $this->customerAccountManagement->initiatePasswordReset(
+                            $search->getEmail(),
+                            AccountManagement::EMAIL_RESET
+                        );
                     } else {
                         $this->session->setForgottenEmail($email);
                         $this->messageManager->addErrorMessage(

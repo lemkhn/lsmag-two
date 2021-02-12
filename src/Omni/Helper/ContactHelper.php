@@ -608,22 +608,21 @@ class ContactHelper extends AbstractHelper
     /**
      * @param $customer
      * @param $customer_post
-     * @return bool|Entity\PasswordChangeResponse|ResponseInterface|null
+     * @return bool|Entity\ChangePasswordResponse|ResponseInterface|null
      */
     public function changePassword($customer, $customer_post)
     {
         $response = null;
         // @codingStandardsIgnoreStart
-        $request        = new Operation\PasswordChange();
-        $changepassword = new Entity\PasswordChange();
+        $request        = new Operation\ChangePassword();
+        $changepassword = new Entity\ChangePassword();
         // @codingStandardsIgnoreEnd
 
         $request->setToken($customer->getData('lsr_token'));
 
         $changepassword->setUserName($customer->getData('lsr_username'))
             ->setOldPassword($customer_post['current_password'])
-            ->setNewPassword($customer_post['password'])
-            ->setToken('');
+            ->setNewPassword($customer_post['password']);
 
         try {
             $response = $request->execute($changepassword);
@@ -631,49 +630,46 @@ class ContactHelper extends AbstractHelper
             $this->_logger->error($e->getMessage());
         }
 
-        return $response ? $response->getPasswordChangeResult() : $response;
+        return $response ? $response->getChangePasswordResult() : $response;
     }
 
     /**
-     * @param $customer
-     * @return Entity\PasswordResetResponse|ResponseInterface|string|null
+     * @param string $email
+     * @return bool| Entity\ForgotPasswordResponse | null
      */
-    public function forgotPassword($customer)
+    public function forgotPassword($email)
     {
         $response = null;
         // @codingStandardsIgnoreStart
-        $request        = new Operation\PasswordReset();
-        $forgotPassword = new Entity\PasswordReset();
+        $request        = new Operation\ForgotPassword();
+        $forgotpassword = new Entity\ForgotPassword();
         // @codingStandardsIgnoreEnd
-
-        $forgotPassword->setUserName($customer->getData('lsr_username'));
-        $forgotPassword->setEmail('');
+        $forgotpassword->setUserNameOrEmail($email);
 
         try {
-            $response = $request->execute($forgotPassword);
+            $response = $request->execute($forgotpassword);
         } catch (Exception $e) {
             $this->_logger->error($e->getMessage());
         }
-        return $response ? $response->getPasswordResetResult() : $response;
+        return $response ? $response->getForgotPasswordResult() : $response;
     }
 
     /**
      * @param $customer
      * @param $customer_post
-     * @return bool|Entity\PasswordChangeResponse|ResponseInterface|null
+     * @return bool|Entity\ResetPasswordResponse|ResponseInterface|null
      */
     public function resetPassword($customer, $customer_post)
     {
         $response = null;
         // @codingStandardsIgnoreStart
-        $request       = new Operation\PasswordChange();
-        $resetpassword = new Entity\PasswordChange();
+        $request       = new Operation\ResetPassword();
+        $resetpassword = new Entity\ResetPassword();
         // @codingStandardsIgnoreEnd
         $request->setToken($customer->getData('lsr_token'));
         $resetpassword->setUserName($customer->getData('lsr_username'))
-            ->setToken($customer->getData('lsr_resetcode'))
-            ->setNewPassword($customer_post['password'])
-            ->setOldPassword('');
+            ->setResetCode($customer->getData('lsr_resetcode'))
+            ->setNewPassword($customer_post['password']);
 
         try {
             $response = $request->execute($resetpassword);
@@ -681,7 +677,7 @@ class ContactHelper extends AbstractHelper
             $this->_logger->error($e->getMessage());
         }
 
-        return $response ? $response->getPasswordChangeResult() : $response;
+        return $response ? $response->getResetPasswordResult() : $response;
     }
 
     /**
@@ -724,43 +720,6 @@ class ContactHelper extends AbstractHelper
             }
             return $response ? $response->getResult() : $response;
         }
-    }
-
-    /**
-     * @param null $customer
-     * @return Entity\ContactUpdateResponse|Entity\MemberContact|ResponseInterface|null
-     * @throws InvalidEnumException
-     */
-    public function updateCustomerAccount($customerData = null)
-    {
-        $response = null;
-        // @codingStandardsIgnoreStart
-        $request = new Operation\ContactUpdate();
-        $entity  = new Entity\ContactUpdate();
-        // @codingStandardsIgnoreEnd
-        $customer = $this->customerFactory->create()->load($customerData->getId());
-        $request->setToken($customer->getData('lsr_token'));
-        // @codingStandardsIgnoreLine
-        $memberContact = new Entity\MemberContact();
-        if (!empty($customer->getData('dob'))) {
-            $dob = $this->date->date("Y-m-d\T00:00:00", strtotime($customer->getData('dob')));
-            $memberContact->setBirthDay($dob);
-        }
-        $memberContact->setFirstName($customer->getFirstname())
-            ->setGender($this->getGenderStringById($customer->getData('gender')))
-            ->setLastName($customer->getLastname())
-            ->setUserName($customer->getData('lsr_username'))
-            ->setEmail($customer->getEmail())
-            ->setMiddleName('  ')
-            ->setId($customer->getData('lsr_id'))
-            ->setCards($this->setCards($this->setCard($customer->getData('lsr_cardid'))));
-        if (count($customer->getAddresses()) > 0) {
-            $memberContact->setAddresses($this->setAddresses($this->setAddress($customer->getAddresses()[0])));
-        }
-        $entity->setContact($memberContact);
-        $response = $request->execute($entity);
-
-        return $response ? $response->getResult() : $response;
     }
 
     /**
@@ -1094,8 +1053,6 @@ class ContactHelper extends AbstractHelper
         $customer       = $this->setCustomerAttributesValues($result, $customer);
         $this->customerResourceModel->save($customer);
         $this->registry->register(LSR::REGISTRY_LOYALTY_LOGINRESULT, $result);
-        $this->basketHelper->unSetOneList();
-        $this->basketHelper->unSetOneListCalculation();
         $this->customerSession->setData(LSR::SESSION_CUSTOMER_SECURITYTOKEN, $customer->getData('lsr_token'));
         $this->customerSession->setData(LSR::SESSION_CUSTOMER_LSRID, $customer->getData('lsr_id'));
         $this->customerSession->setData(LSR::SESSION_CUSTOMER_CARDID, $customer->getData('lsr_cardid'));
@@ -1105,19 +1062,12 @@ class ContactHelper extends AbstractHelper
     /**
      * @param $isEmail
      * @param $userNameOrEmail
-     * @param $request
-     * @param false $isAjax
-     * @param false $isGraphQl
-     * @return string
+     * @param RequestInterface $request
+     * @param bool $isAjax
      * @throws LocalizedException
      */
-    public function loginCustomerIfOmniServiceDown(
-        $isEmail,
-        $userNameOrEmail,
-        $request,
-        $isAjax = false,
-        $isGraphQl = false
-    ) {
+    public function loginCustomerIfOmniServiceDown($isEmail, $userNameOrEmail, $request, $isAjax = false)
+    {
         if (!$isEmail) {
             $filters = [
                 $this->filterBuilder
@@ -1136,8 +1086,6 @@ class ContactHelper extends AbstractHelper
                     $credentials             = json_decode($request->getContent(), true);
                     $credentials['username'] = $email;
                     $request->setContent(json_encode($credentials));
-                } elseif ($isGraphQl == true) {
-                    return $email;
                 } else {
                     $login             = $request->getPost("login");
                     $login['username'] = $email;

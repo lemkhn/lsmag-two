@@ -447,6 +447,24 @@
         }
     }
 
+    .voucher {
+        margin-bottom: 30px;
+
+        .fieldset {
+            &:last-child {
+                margin-bottom: auto;
+            }
+        }
+
+        .content {
+            margin-top: 10px;
+        }
+
+        #voucher_amount {
+            margin-top: 10px;
+        }
+    }
+
     #giftcard-form {
         .gift-card-code-field {
             padding-right: 2px;
@@ -483,6 +501,41 @@
         }
     }
 
+    #voucher-form {
+        .voucher-code-field {
+            padding-right: 2px;
+        }
+
+        .applied {
+            .actions-toolbar {
+                width: 40%;
+
+                > .primary {
+                    width: 100%;
+
+                    .action.applyvoucher.primary {
+                        margin-right: 5px;
+                    }
+
+                    .applyvoucher,
+                    .cancelvoucher {
+                        border-radius: 3px;
+                    }
+                }
+            }
+
+            .field {
+                width: 30%;
+            }
+        }
+
+        .voucher-amount-field {
+            input {
+                border-top-right-radius: unset;
+                border-bottom-right-radius: unset;
+            }
+        }
+    }
 
     #gift-card-balance {
         .action {
@@ -531,6 +584,49 @@
         }
 
         .giftcardinfo {
+            p {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    .omni-voucherbalance-index {
+        .row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .mt-5,
+        .mb-5 {
+            margin-top: 2rem !important;
+        }
+
+        .col-md-6 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+       
+        .voucherinfo {
             p {
                 font-size: 1.5rem;
             }
@@ -735,6 +831,28 @@
         }
 
         #giftcard-form {
+            .applied {
+                .field {
+                    width: 100%;
+                    display: block;
+
+                    input {
+                        border-radius: 6px;
+                    }
+                }
+
+                .actions-toolbar {
+                    width: 100%;
+                    display: block;
+
+                    input {
+                        border-radius: 3px;
+                    }
+                }
+            }
+        }
+
+        #voucher-form {
             .applied {
                 .field {
                     width: 100%;
