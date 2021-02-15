@@ -42,6 +42,8 @@ class GiftCardLoyaltyPoints extends AbstractTotal
         $creditmemo->setLsPointsSpent(0);
         $creditmemo->setLsGiftCardAmountUsed(0);
         $creditmemo->setLsGiftCardNo(null);
+		$creditmemo->setLsVoucherAmountUsed(0);
+        $creditmemo->setLsVoucherNo(null);
 
         $pointsSpent = $creditmemo->getOrder()->getLsPointsSpent();
         $creditmemo->setLsPointsSpent($pointsSpent);
@@ -54,6 +56,12 @@ class GiftCardLoyaltyPoints extends AbstractTotal
 
         $giftCardNo = $creditmemo->getOrder()->getLsGiftCardNo();
         $creditmemo->setLsGiftCardNo($giftCardNo);
+		
+		$voucherAmount = $creditmemo->getOrder()->getLsVoucherAmountUsed();
+        $creditmemo->setLsVoucherAmountUsed($voucherAmount);
+
+        $voucherNo = $creditmemo->getOrder()->getLsVoucherNo();
+        $creditmemo->setLsVoucherNo($voucherNo);
 
         $pointsSpent          *= $this->loyaltyHelper->getPointRate();
         $grandTotalAmount     = $creditmemo->getOrder()->getGrandTotal()

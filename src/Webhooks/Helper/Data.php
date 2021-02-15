@@ -215,4 +215,18 @@ class Data
         }
         return $validate;
     }
+	
+	/**
+     * @param $giftCard
+	 * @param $voucher
+	 * @param $num
+	 * @param $basketSession
+     * @return bool
+     */
+    public function getOrderBalance($giftCard, $voucher, $num, $basketSession)
+    {
+        $validate = true;
+        
+        return $validate;
+    }
 }

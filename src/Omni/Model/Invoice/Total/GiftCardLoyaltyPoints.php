@@ -43,6 +43,8 @@ class GiftCardLoyaltyPoints extends AbstractTotal
         $invoice->setLsPointsSpent(0);
         $invoice->setLsGiftCardAmountUsed(0);
         $invoice->setLsGiftCardNo(null);
+		$invoice->setLsVoucherAmountUsed(0);
+        $invoice->setLsVoucherNo(null);
 
         $pointsSpent = $invoice->getOrder()->getLsPointsSpent();
         $invoice->setLsPointsSpent($pointsSpent);
@@ -55,6 +57,12 @@ class GiftCardLoyaltyPoints extends AbstractTotal
 
         $giftCardNo = $invoice->getOrder()->getLsGiftCardNo();
         $invoice->setLsGiftCardNo($giftCardNo);
+		
+		$voucherAmount = $invoice->getOrder()->getLsVoucherAmountUsed();
+        $invoice->setLsVoucherAmountUsed($voucherAmount);
+
+        $voucherNo = $invoice->getOrder()->getLsVoucherNo();
+        $invoice->setLsVoucherNo($voucherNo);
 
         $grandTotalAmount     = $invoice->getOrder()->getGrandTotal();
         $baseGrandTotalAmount = $invoice->getOrder()->getBaseGrandTotal();

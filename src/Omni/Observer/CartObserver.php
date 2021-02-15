@@ -129,10 +129,13 @@ class CartObserver implements ObserverInterface
                     $this->checkoutSession->getQuote()->setLsPointsEarn($basketData->getPointsRewarded())->save();
                 }
                 if ($this->checkoutSession->getQuote()->getLsGiftCardAmountUsed() > 0 ||
+					$this->checkoutSession->getQuote()->getLsVoucherAmountUsed() > 0 ||
                     $this->checkoutSession->getQuote()->getLsPointsSpent() > 0) {
                     $this->data->orderBalanceCheck(
                         $this->checkoutSession->getQuote()->getLsGiftCardNo(),
                         $this->checkoutSession->getQuote()->getLsGiftCardAmountUsed(),
+						$this->checkoutSession->getQuote()->getLsVoucherNo(),
+                        $this->checkoutSession->getQuote()->getLsVoucherAmountUsed(),
                         $this->checkoutSession->getQuote()->getLsPointsSpent(),
                         $basketData
                     );

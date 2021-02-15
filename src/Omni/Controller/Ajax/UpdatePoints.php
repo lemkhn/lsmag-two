@@ -131,6 +131,7 @@ class UpdatePoints extends Action
             $quote              = $this->cartRepository->get($cartId);
             $orderBalance       = $this->data->getOrderBalance(
                 $quote->getLsGiftCardAmountUsed(),
+				$quote->getLsVoucherAmountUsed(),
                 0,
                 $this->basketHelper->getBasketSessionValue()
             );

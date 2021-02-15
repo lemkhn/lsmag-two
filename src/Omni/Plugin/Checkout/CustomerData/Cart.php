@@ -117,6 +117,7 @@ class Cart
                 }
                 $grandTotalAmount = $this->data->getOrderBalance(
                     $quote->getLsGiftCardAmountUsed(),
+					$quote->getLsVoucherAmountUsed(),
                     $quote->getLsPointsSpent(),
                     $this->basketHelper->getBasketSessionValue()
                 );

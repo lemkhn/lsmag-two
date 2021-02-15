@@ -23,9 +23,9 @@ define(
              * @returns {*}
              */
             getVoucherAmountUsedValue: function () {
-                var giftCardAmount = this.getVoucherAmountUsed().value;
+                var voucherAmount = this.getVoucherAmountUsed().value;
 
-                return giftCardAmount;
+                return voucherAmount;
             }
         });
     }

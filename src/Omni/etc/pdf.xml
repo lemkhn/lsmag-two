@@ -17,5 +17,13 @@
             <display_zero>false</display_zero>
             <sort_order>620</sort_order>
         </total>
+		<total name="voucher">
+            <title translate="true">Voucher Redeemed</title>
+            <source_field>ls_voucher_amount_used</source_field>
+            <title_source_field>ls_voucher_no</title_source_field>
+            <font_size>7</font_size>
+            <display_zero>false</display_zero>
+            <sort_order>630</sort_order>
+        </total>
     </totals>
 </config>

@@ -106,6 +106,7 @@ class RedeemPoints extends \Magento\Checkout\Controller\Cart
             $isPointValid       = $this->loyaltyHelper->isPointsAreValid($loyaltyPoints);
             $orderBalance       = $this->data->getOrderBalance(
                 $cartQuote->getLsGiftCardAmountUsed(),
+				$cartQuote->getLsVoucherAmountUsed(),
                 0,
                 $this->basketHelper->getBasketSessionValue()
             );

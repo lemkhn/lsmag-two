@@ -5,13 +5,13 @@ if ($block->getVoucherActive()) {
     if (!empty($block->getVoucherAmountUsed())) {
         $class = "applied";
     } ?>
-    <div class="voucher block" id="block-giftcard"
+    <div class="voucher block" id="block-voucher"
          data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
         <div class="title" data-role="title">
-            <strong id="block-giftcard-heading" role="heading" aria-level="2"><?= /* @escapeNotVerified */
+            <strong id="block-voucher-heading" role="heading" aria-level="2"><?= /* @escapeNotVerified */
                 __('Apply Voucher') ?></strong>
         </div>
-        <div class="content" data-role="content" aria-labelledby="block-giftcard-heading">
+        <div class="content" data-role="content" aria-labelledby="block-voucher-heading">
             <form id="voucher-form"
                   action="<?= /* @escapeNotVerified */
                   // controller

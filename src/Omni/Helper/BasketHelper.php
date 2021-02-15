@@ -522,6 +522,8 @@ class BasketHelper extends AbstractHelper
         $checkCouponAmount = $this->data->orderBalanceCheck(
             $this->checkoutSession->getQuote()->getLsGiftCardNo(),
             $this->checkoutSession->getQuote()->getLsGiftCardAmountUsed(),
+			$this->checkoutSession->getQuote()->getLsVoucherNo(),
+            $this->checkoutSession->getQuote()->getLsVoucherAmountUsed(),
             $this->checkoutSession->getQuote()->getLsPointsSpent(),
             $status
         );

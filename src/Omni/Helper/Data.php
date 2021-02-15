@@ -277,18 +277,19 @@ class Data extends AbstractHelper
 
     /**
      * @param $giftCardAmount
+     * @param $voucherAmount
      * @param $loyaltyPoints
      * @param $basketData
      * @return float|int
      */
-    public function getOrderBalance($giftCardAmount, $loyaltyPoints, $basketData)
+    public function getOrderBalance($giftCardAmount, $voucherAmount, $loyaltyPoints, $basketData)
     {
         $loyaltyAmount = 0;
         try {
             $loyaltyAmount = $this->loyaltyHelper->getPointRate() * $loyaltyPoints;
             if (!empty($basketData)) {
                 $totalAmount = $basketData->getTotalAmount();
-                return $totalAmount - $giftCardAmount - $loyaltyAmount;
+                return $totalAmount - $giftCardAmount - $voucherAmount - $loyaltyAmount;
             }
         } catch (Exception $e) {
             $this->_logger->error($e->getMessage());
@@ -299,11 +300,13 @@ class Data extends AbstractHelper
     /**
      * @param $giftCardNo
      * @param $giftCardAmount
+     * @param $voucherNo
+     * @param $voucherAmount
      * @param $loyaltyPoints
      * @param $basketData
      * @return bool
      */
-    public function orderBalanceCheck($giftCardNo, $giftCardAmount, $loyaltyPoints, $basketData)
+    public function orderBalanceCheck($giftCardNo, $giftCardAmount, $voucherNo, $voucherAmount, $loyaltyPoints, $basketData)
     {
         try {
             $loyaltyAmount = $this->loyaltyHelper->getPointRate() * $loyaltyPoints;
@@ -334,17 +337,35 @@ class Data extends AbstractHelper
                             $this->priceHelper->currency($giftCardAmount, true, false)
                         )
                     );
-                } elseif ($combinedTotalLoyalGiftCard > $totalAmount) {
-                    $quote->setLsPointsSpent(0);
-                    $quote->setLsGiftCardAmountUsed(0);
-                    $quote->setLsGiftCardNo(null);
+				} elseif ($voucherAmount > $totalAmount) {
+                    $quote->setLsVoucherAmountUsed(0);
+                    $quote->setLsVoucherNo(null);
                     $quote->collectTotals();
                     $this->cartRepository->save($quote);
                     $this->messageManager->addErrorMessage(
                         __(
-                            'The gift card amount "%1" and loyalty points "%2" are not valid.',
+                            'The voucher amount "%1" is not valid.',
+                            $this->priceHelper->currency($voucherAmount, true, false)
+                        )
+                    );
+                } elseif ($combinedTotalLoyalGiftCard > $totalAmount) {
+                    $quote->setLsPointsSpent(0);
+                    $quote->setLsGiftCardAmountUsed(0);
+                    $quote->setLsGiftCardNo(null);
+                    $quote->setLsVoucherAmountUsed(0);
+                    $quote->setLsVoucherNo(null);
+                    $quote->collectTotals();
+                    $this->cartRepository->save($quote);
+                    $this->messageManager->addErrorMessage(
+                        __(
+                            'The gift card amount "%1", The voucher amount "%2"  and loyalty points "%3" are not valid.',
                             $this->priceHelper->currency(
                                 $giftCardAmount,
+                                true,
+                                false
+                            ),
+							$this->priceHelper->currency(
+                                $voucherAmount,
                                 true,
                                 false
                             ),

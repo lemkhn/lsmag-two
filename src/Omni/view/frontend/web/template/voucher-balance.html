@@ -1,0 +1,54 @@
+<div class="row mt-4">
+    <div class="col-md-6">
+        <!-- ko if: getErrorMessages() -->
+        <div style="color:red" class="error-messages" data-bind="'html': getErrorMessages()"></div>
+        <!-- /ko -->
+        <form method="post" data-role="save"
+              data-bind="submit:checkVoucherBalance">
+            <div
+                    data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+                <div class="field field-email required">
+                    <label class="label"><span
+                            data-bind="i18n: 'Voucher Code:'"></span><span style="color:red">*</span></label>
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="voucher_code"
+                               name="voucher_code"
+                               data-validate="{'required-entry':true}"
+                               data-bind="attr:{placeholder: $t('Enter Voucher Code')} "/>
+                    </div>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action  primary"><span
+                            data-bind="i18n: 'Check Balance'"></span></button>
+                    <button type="button" class="action  primary"
+                            data-bind="'value': $t('Reset'), click: cancelVoucherBalance"><span
+                            data-bind="i18n: 'Reset'"></span></button>
+                </div>
+            </div>
+        </form>
+        <div class="giftcardinfo mt-5">
+            <div class="container">
+                <div class="row">
+                    <!-- ko if: getVoucherBalance()-->
+                    <div>
+                        <p><strong><span data-bind="'html': $t('Your balance is: ')"></span><span
+                                data-bind="'html': getVoucherBalance()"></span></strong></p>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if: getVoucherExpiryDate()-->
+                    <div class="col-sm">
+                        <p><strong><span data-bind="'html': $t('Voucher Expiry Date')"></span></strong></p>
+                    </div>
+                    <div class="col-sm">
+                        <p><span data-bind="'html': getVoucherExpiryDate()"></span></p>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

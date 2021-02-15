@@ -1,5 +1,6 @@
 "Loyalty Points Redeemed","Loyalty Points Redeemed"
 "Gift Card Redeemed ","Gift Card Redeemed "
+"Voucher Redeemed ","Voucher Redeemed "
 "Validate Base URL","Validate Base URL"
 "12 Hours","12 Hours"
 "24 Hours","24 Hours"
@@ -86,6 +87,7 @@ Subtotal,Subtotal
 "Loyalty Points Earned","Loyalty Points Earned"
 "Coupon Code Redeemed","Coupon Code Redeemed"
 "Gift Card Code","Gift Card Code"
+"Voucher Code","Voucher Code"
 "Chosen Store","Chosen Store"
 OR,OR
 Loading...,Loading...
@@ -95,6 +97,7 @@ Loading...,Loading...
 "Apply Discount","Apply Discount"
 "Cancel Coupon","Cancel Coupon"
 "Apply Gift Card","Apply Gift Card"
+"Apply Voucher","Apply Voucher"
 Apply,Apply
 Update,Update
 Cancel,Cancel
@@ -125,6 +128,7 @@ Hours,Hours
 "View Details","View Details"
 "Options Details","Options Details"
 "Gift Card Code:","Gift Card Code:"
+"Voucher Code:","Voucher Code:"
 "Check Balance","Check Balance"
 Reset,Reset
 "See Details","See Details"
@@ -132,12 +136,15 @@ Edit,Edit
 Remove,Remove
 "Cancel coupon","Cancel coupon"
 "Enter Gift Card","Enter Gift Card"
+"Enter Voucher Card","Enter Voucher Card"
 "Place Order","Place Order"
 Items,Items
 Close,Close
 "Gift card successfully removed.","Gift card successfully removed."
+"Voucher successfully removed.","Voucher successfully removed."
 "Your points are successfully removed.","Your points are successfully removed."
 "Gift card successfully applied.","Gift card successfully applied."
+"Voucher successfully applied.","Voucher successfully applied."
 "Your points are successfully redeemed.","Your points are successfully redeemed."
 "contains %1 quantity","contains %1 quantity"
 cart,cart
@@ -170,6 +177,7 @@ Enabled,Enabled
 Coupons,Coupons
 "Show Coupon Recommendations on Cart/Checkout Page","Show Coupon Recommendations on Cart/Checkout Page"
 "Gift Card","Gift Card"
+"Voucher","Voucher"
 "Discount Management","Discount Management"
 "Show Promotions on Product Page","Show Promotions on Product Page"
 "Show Login/Register Notice","Show Login/Register Notice"
@@ -205,3 +213,4 @@ Title,Title
 "Order Balance","Order Balance"
 Stores,Stores
 "Check Gift Card Balance","Check Gift Card Balance"
+"Check Voucher Balance","Check Voucher Balance"

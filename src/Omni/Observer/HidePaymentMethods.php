@@ -80,6 +80,7 @@ class HidePaymentMethods implements ObserverInterface
             if (!empty($basketData)) {
                 $orderTotal      = $this->data->getOrderBalance(
                     $quote->getLsGiftCardAmountUsed(),
+					$quote->getLsVoucherAmountUsed(),
                     $quote->getLsPointsSpent(),
                     $basketData
                 );

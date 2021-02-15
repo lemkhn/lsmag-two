@@ -117,6 +117,8 @@ class QuoteObserver implements ObserverInterface
                     $this->data->orderBalanceCheck(
                         $quote->getLsGiftCardNo(),
                         $quote->getLsGiftCardAmountUsed(),
+						$quote->getLsVoucherNo(),
+                        $quote->getLsVoucherAmountUsed(),
                         $quote->getLsPointsSpent(),
                         $basketData
                     );
