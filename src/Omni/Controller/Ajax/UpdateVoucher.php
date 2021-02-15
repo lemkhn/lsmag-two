@@ -136,6 +136,15 @@ class UpdateVoucher extends Action
             } else {
                 $voucherBalanceAmount = $voucherResponse;
             }
+        } else if ($voucherNo == null && $voucherAmount == 0) {
+            $response = [
+                'error' => 'true',
+                'message' => __(
+                    'Please input a valid voucher.'
+                )
+            ];
+            
+            return $resultJson->setData($response);
         } else {
             $response = [
                 'success' => 'true',
@@ -164,6 +173,7 @@ class UpdateVoucher extends Action
         }
 
         $orderBalance = $this->data->getOrderBalance(
+            0,
             0,
             $quote->getLsPointsSpent(),
             $this->basketHelper->getBasketSessionValue()

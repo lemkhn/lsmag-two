@@ -315,7 +315,7 @@ class Data extends AbstractHelper
             if (!empty($basketData) && is_object($basketData)) {
                 $totalAmount                   = $basketData->getTotalAmount();
                 $discountAmount                = $basketData->getTotalDiscount();
-                $combinedTotalLoyalGiftCard    = $giftCardAmount + $loyaltyAmount;
+                $combinedTotalLoyalGiftCard    = $giftCardAmount + $loyaltyAmount + $voucherAmount;
                 $combinedDiscountPaymentamount = $discountAmount + $combinedTotalLoyalGiftCard;
                 if ($loyaltyAmount > $totalAmount) {
                     $quote->setLsPointsSpent(0);
@@ -358,7 +358,7 @@ class Data extends AbstractHelper
                     $this->cartRepository->save($quote);
                     $this->messageManager->addErrorMessage(
                         __(
-                            'The gift card amount "%1", The voucher amount "%2"  and loyalty points "%3" are not valid.',
+                            'The gift card amount "%1", voucher amount "%2" and loyalty points "%3" are not valid.',
                             $this->priceHelper->currency(
                                 $giftCardAmount,
                                 true,

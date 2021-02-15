@@ -134,6 +134,7 @@ class GiftCardUsed extends \Magento\Checkout\Controller\Cart
             $itemsCount   = $cartQuote->getItemsCount();
             $orderBalance = $this->data->getOrderBalance(
                 0,
+                0,
                 $cartQuote->getLsPointsSpent(),
                 $this->basketHelper->getBasketSessionValue()
             );

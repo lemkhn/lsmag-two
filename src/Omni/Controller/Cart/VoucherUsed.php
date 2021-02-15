@@ -135,6 +135,7 @@ class VoucherUsed extends \Magento\Checkout\Controller\Cart
             // voucher 
             $orderBalance = $this->data->getOrderBalance(
                 0,
+                0,
                 $cartQuote->getLsPointsSpent(),
                 $this->basketHelper->getBasketSessionValue()
             );

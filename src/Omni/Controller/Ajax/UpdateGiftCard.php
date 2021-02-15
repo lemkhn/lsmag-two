@@ -164,6 +164,7 @@ class UpdateGiftCard extends Action
 
         $orderBalance = $this->data->getOrderBalance(
             0,
+            0,
             $quote->getLsPointsSpent(),
             $this->basketHelper->getBasketSessionValue()
         );

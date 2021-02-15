@@ -77,10 +77,10 @@ class LayoutProcessorPlugin
             unset($jsLayout['components']['checkout']['children']['sidebar']['children']['summary']['children']['totals']['children']['loyalty_points_label']);
         }
         if ($this->giftCardHelper->isGiftCardEnabled('checkout') == '0') {
-            unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['afterMethods']['children']['gift-card']);
+            unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['afterMethods']['children']['gift-card']['vou-cher']);
         }
         if ($this->voucherHelper->isVoucherEnabled('checkout') == '0') {
-            unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['afterMethods']['children']['vou-cher']);
+            unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['afterMethods']['children']['vou-cher']['gift-card']);
         }
 
         if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shippingAdditional']['children'])) {
